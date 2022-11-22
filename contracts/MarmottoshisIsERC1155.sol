@@ -336,6 +336,9 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
         require(_tokenId >= 1, "Nonexistent id");
         require(_tokenId <= maxToken, "Nonexistent id");
         require(supplyByID[_tokenId] > 0, "Nonexistent id");
+        if (!isRevealed) {
+            return uri;
+        }
         string memory image = string(abi.encodePacked(_uri, _tokenId.toString(), ".png"));
         string memory name = string(abi.encodePacked("Marmotoshis #", _tokenId.toString()));
         string memory json = Base64.encode(
