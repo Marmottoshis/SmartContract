@@ -195,4 +195,4 @@ Les autres fonctions non listées ici permettent de consulter certaines informat
 Toutes les fonctions sont dans le contrat, il est conseillé de lire le contrat en entier, des commentaires sont présents pour vous aider à comprendre. 
 ## Auteur
 
-- [@0xNekr](https://www.github.com/octokatherine)
+- [@0xNekr](https://www.github.com/0xNekr)
