@@ -191,12 +191,14 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
     */
     function subBTC(uint satoshis) external {
         require(msg.sender == marmott, "Only Marmott can sub BTC");
+        require(balanceOfSatoshis >= satoshis, "Not enough satoshis in balance to sub");
         balanceOfSatoshis = balanceOfSatoshis - satoshis;
         uint divedBy = getNumberOfIdLeft();
         require(divedBy > 0, "No NFT left");
         uint satoshisPerId = satoshis / divedBy;
         for (uint i = 1; i <= maxToken; i++) {
             if (supplyByID[i] > 0) {
+                require(balanceOfSatoshiByID[i] >= satoshisPerId, "Not enough satoshis in balance to sub (by id)");
                 balanceOfSatoshiByID[i] = balanceOfSatoshiByID[i] - satoshisPerId;
             }
         }
@@ -339,7 +341,7 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
         require(_tokenId <= maxToken, "Nonexistent id");
         require(supplyByID[_tokenId] > 0, "Nonexistent id");
         if (!isRevealed) {
-            return uri;
+            return _uri;
         }
         string memory image = string(abi.encodePacked(_uri, _tokenId.toString(), ".png"));
         string memory name = string(abi.encodePacked("Marmottoshis #", _tokenId.toString()));
