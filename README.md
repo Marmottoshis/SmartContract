@@ -25,7 +25,7 @@ Le contrat dans sa version définitive sera **disponible ici avant le déploieme
 
 - Réserver son NFT avant le mint. 
 - Mint son NFT sous forme de plusieurs phases (free mint - réservation mint - mint première whitelist - mint seconde whitelist - mint publique).
-- Consulter combien de Satoshis sont présent sur le contrat.
+- Consulter combien de Satoshis sont présents sur le contrat.
 - Consulter combien de Satoshis sont adossés à un ID de NFT spécifique.
 - Brûler (burn) un NFT pour déclencher une demande de récupération des Satoshis. 
 
