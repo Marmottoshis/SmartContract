@@ -210,9 +210,11 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
     function burnAndRedeem(uint _idToRedeem, string memory _btcAddress) public nonReentrant {
         require(_idToRedeem >= 1, "Nonexistent id");
         require(_idToRedeem <= maxToken, "Nonexistent id");
+        require(currentStep == Step.SoldOut, "You can't redeem satoshis yet");
         require(balanceOf(msg.sender, _idToRedeem) >= 1, "Not enough Marmottoshis to burn");
         _burn(msg.sender, _idToRedeem, 1);
         uint satoshisToRedeem = redeemableById(_idToRedeem);
+        require(satoshisToRedeem > 0, "No satoshi to redeem");
         balanceOfSatoshis = balanceOfSatoshis - satoshisToRedeem;
         balanceOfSatoshiByID[_idToRedeem] = balanceOfSatoshiByID[_idToRedeem] - satoshisToRedeem;
         supplyByID[_idToRedeem] = supplyByID[_idToRedeem] - 1;
