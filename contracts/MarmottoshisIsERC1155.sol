@@ -99,28 +99,28 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
             _mint(msg.sender, idToMint, 1, "");
         } else if (currentStep == Step.ReservationMint) {
             require(reservationList[msg.sender], "Not on reservation list");
-            require(msg.value >= reservationNFTPrice, "Not enought ether");
+            require(msg.value >= reservationNFTPrice, "Not enough ether");
             require(totalSupply() + 1 <= 477, "Max reservation mint supply exceeded");
             require(reservationMintByWallet[msg.sender] + 1 <= 1, "You already minted your reserved NFT");
             reservationMintByWallet[msg.sender] += 1;
             _mint(msg.sender, idToMint, 1, "");
         } else if (currentStep == Step.FirstWhitelistMint) {
             require(isOnList(msg.sender, _proof, 1), "Not on first whitelist");
-            require(msg.value >= whitelistPrice, "Not enought ether");
+            require(msg.value >= whitelistPrice, "Not enough ether");
             require(totalSupply() + 1 <= 577, "Max first whitelist mint supply exceeded");
             require(firstWhitelistMintByWallet[msg.sender] + 1 <= 1, "You already minted your first whitelist NFT");
             firstWhitelistMintByWallet[msg.sender] += 1;
             _mint(msg.sender, idToMint, 1, "");
         } else if (currentStep == Step.SecondWhitelistMint) {
             require(isOnList(msg.sender, _proof, 2), "Not on second whitelist");
-            require(msg.value >= whitelistPrice, "Not enought ether");
+            require(msg.value >= whitelistPrice, "Not enough ether");
             require(totalSupply() + 1 <= 777, "Max second whitelist mint supply exceeded");
             require(secondWhitelistMintByWallet[msg.sender] + 1 <= 1, "You already minted your second whitelist NFT");
             secondWhitelistMintByWallet[msg.sender] += 1;
             _mint(msg.sender, idToMint, 1, "");
         } else {
-            require(msg.value >= publicPrice, "Not enought ether");
-            require(totalSupply() + 1 <= 777, "Max second whitelist mint supply exceeded");
+            require(msg.value >= publicPrice, "Not enough ether");
+            require(totalSupply() + 1 <= 777, "Sold out");
             _mint(msg.sender, idToMint, 1, "");
         }
         supplyByID[idToMint]++;
@@ -210,7 +210,7 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
     function burnAndRedeem(uint _idToRedeem, string memory _btcAddress) public nonReentrant {
         require(_idToRedeem >= 1, "Nonexistent id");
         require(_idToRedeem <= maxToken, "Nonexistent id");
-        require(balanceOf(msg.sender, _idToRedeem) >= 1, "Not enough Marmott to burn");
+        require(balanceOf(msg.sender, _idToRedeem) >= 1, "Not enough Marmottoshis to burn");
         _burn(msg.sender, _idToRedeem, 1);
         uint satoshisToRedeem = redeemableById(_idToRedeem);
         balanceOfSatoshis = balanceOfSatoshis - satoshisToRedeem;
@@ -224,7 +224,7 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
     */
     function reservationForWhitelist() external payable nonReentrant {
         require(currentStep == Step.WLReservation, "Reservation for whitelist is not open");
-        require(msg.value >= reservationPrice, "Not enought ether");
+        require(msg.value >= reservationPrice, "Not enough ether");
         require(reservationList[msg.sender] == false, "You are already in the pre-whitelist");
         require(currentReservationNumber + 1 <= 400, "Max pre-whitelist reached");
         currentReservationNumber = currentReservationNumber + 1;
@@ -340,7 +340,7 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
             return uri;
         }
         string memory image = string(abi.encodePacked(_uri, _tokenId.toString(), ".png"));
-        string memory name = string(abi.encodePacked("Marmotoshis #", _tokenId.toString()));
+        string memory name = string(abi.encodePacked("Marmottoshis #", _tokenId.toString()));
         string memory json = Base64.encode(
             bytes(
                 string(
