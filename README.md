@@ -88,7 +88,7 @@ function subBTC(uint satoshis) external {
 }
 ````
 
-### Brûler un BTC pour récupérer les Satoshis
+### Brûler un Marmottoshi pour récupérer les Satoshis
 
 Lorsque vous souhaitez récupérer vos Satoshis, vous allez interagir avec la fonction "burnAndRedeem" qui va brûler votre NFT afin d'émettre un événement (une demande de récupération) qui sera ensuite traité par la Marmotte. Tout ceci pourra se passer depuis le contrat, ou via la dApp. 
 
