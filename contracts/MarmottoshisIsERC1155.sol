@@ -266,7 +266,7 @@ contract MarmottoshisIsERC1155 is ERC1155, ERC2981, Ownable, ReentrancyGuard {
     * @param _links[] : array of artist's link
     * @param _id : id of the artist's NFT
     */
-    function addArtist(string[] memory _artists, string[] memory _links, uint[] memory _id) public onlyOwner {
+    function addArtist(string[] memory _artists, string[] memory _links, uint[] memory _id) external onlyOwner {
         require(_artists.length == _links.length && _artists.length == _id.length, "Artists and links must be the same length");
         for (uint i = 0; i < _artists.length; i++) {
             artistByID[_id[i]] = Artist({
