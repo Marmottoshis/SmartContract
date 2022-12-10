@@ -21,6 +21,7 @@ interface IMarmottoshisIsERC1155 {
         SoldOut
     }
 
+    event newReservation(address indexed sender); // New reservation
     event newRedeemRequest(address indexed sender, uint256 nftIdRedeemed, uint256 burnAmount, string btcAddress, uint256 satoshisAmount); // Redeem event (user want to claim sats)
     event newMint(address indexed sender, uint256 nftIdMinted); // New mint
     event stepUpdated(Step currentStep); // Step updated

@@ -185,6 +185,7 @@ contract MarmottoshisIsERC1155 is IMarmottoshisIsERC1155, ERC1155, ERC2981, Owna
         require(currentReservationNumber + 1 <= 400, "Max pre-whitelist reached");
         currentReservationNumber = currentReservationNumber + 1;
         reservationList[msg.sender] = true;
+        emit newReservation(msg.sender);
     }
 
     // @dev see {IMarmottoshisIsERC1155-redeemableById}
