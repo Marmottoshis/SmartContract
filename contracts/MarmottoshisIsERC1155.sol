@@ -17,13 +17,13 @@ contract MarmottoshisIsERC1155 is IMarmottoshisIsERC1155, ERC1155, ERC2981, Owna
     Step public currentStep;
 
     uint public constant maxToken = 21; // 21 different NFTs
-    uint public constant maxSupply = 37; // 37 copies of each NFT
+    uint public constant maxSupply = 3; // 37 copies of each NFT
 
-    uint public reservationPrice = 0.01 ether; // Price of the reservation
+    uint public reservationPrice = 0.0001 ether; // Price of the reservation
 
-    uint public reservationNFTPrice = 0.008 ether; // Price of the NFT for reservation list
-    uint public whitelistPrice = 0.02 ether; // Price of whitelist mint
-    uint public publicPrice = 0.03 ether; // Price of public mint
+    uint public reservationNFTPrice = 0.00008 ether; // Price of the NFT for reservation list
+    uint public whitelistPrice = 0.0002 ether; // Price of whitelist mint
+    uint public publicPrice = 0.0003 ether; // Price of public mint
 
     uint public balanceOfSatoshis = 0; // Balance of Satoshis (100000000 Satoshis = 1 Bitcoin)
 
@@ -258,7 +258,6 @@ contract MarmottoshisIsERC1155 is IMarmottoshisIsERC1155, ERC1155, ERC2981, Owna
     function uri(uint256 _tokenId) override public view returns (string memory) {
         require(_tokenId >= 1, "Nonexistent id");
         require(_tokenId <= maxToken, "Nonexistent id");
-        require(supplyByID[_tokenId] > 0, "Nonexistent id");
         if (!isRevealed) {
             return _uri;
         }
