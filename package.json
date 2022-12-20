@@ -1,0 +1,16 @@
+{
+  "name": "marmottoshis",
+  "version": "1.0.0",
+  "description": "marmottoshis",
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "hardhat": "^2.12.4"
+  },
+  "dependencies": {
+    "@defi-wonderland/smock": "^2.3.4",
+    "@openzeppelin/contracts": "^4.8.0"
+  }
+}
