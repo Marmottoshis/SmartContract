@@ -4,9 +4,12 @@ pragma solidity ^0.8.17;
 interface IMarmottoshisIsERC1155 {
 
     // @notice Structure to store artist's infos (by token ID)
-    struct Artist {
-        string name;
+    struct Metadata {
+        uint id;
+        string artist_name;
+        string marmot_name;
         string link;
+        string uri;
     }
 
     // @notice Enum of different steps of the contract process
@@ -124,10 +127,10 @@ interface IMarmottoshisIsERC1155 {
     function balanceOfSatoshiByID(uint256) external view returns (uint256);
 
     /*
-    * @notice return artist infos by NFT Id
+    * @notice return metadata infos by NFT Id
     * @param _tokenId : id of NFT
     */
-    function artistByID(uint256) external view returns (string memory name, string memory link);
+    function metadataById(uint256) external view returns (uint id, string memory artist_name, string memory marmot_name, string memory link, string memory uri);
 
     // @notice return current step
     function currentStep() external view returns (Step);
@@ -180,12 +183,14 @@ interface IMarmottoshisIsERC1155 {
     function updateURI(string memory _newUri) external;
 
     /*
-    * @notice create Artist struct of an artist and add it in artistByID mapping
-    * @param _artists[] : array of artist's name
-    * @param _links[] : array of artist's link
-    * @param _id : id of the artist's NFT
+    * @notice create Metadata struct of an NFT and add it in metadataById mapping
+    * @param uint[] : array of NFT Ids
+    * @param string[] : array of artist names
+    * @param string[] : array of marmot names
+    * @param string[] : array of links
+    * @param string[] : array of URIs
     */
-    function addArtist(string[] calldata _artists, string[] calldata _links, uint256[] calldata _id) external;
+    function addMetadata(uint[] calldata _id, string[] calldata _artists_names, string[] calldata _marmot_name, string[] calldata _links, string[] calldata _uri) external;
 
     /*
     * @notice add satoshis to balanceOfSatoshis

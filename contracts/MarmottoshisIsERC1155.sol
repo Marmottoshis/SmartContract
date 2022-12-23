@@ -33,7 +33,7 @@ contract MarmottoshisIsERC1155 is IMarmottoshisIsERC1155, ERC1155, ERC2981, Owna
     bytes32 public firstMerkleRoot; // Merkle root of the first whitelist
     bytes32 public secondMerkleRoot; // Merkle root of the second whitelist
 
-    mapping(uint => Artist) public artistByID; // Artist by ID
+    mapping(uint => Metadata) public metadataById; // Artist by ID
     mapping(uint => uint) public supplyByID; // Number of NFTs minted by ID
     mapping(address => bool) public reservationList; // List of addresses that reserved (true = reserved)
 
@@ -208,13 +208,16 @@ contract MarmottoshisIsERC1155 is IMarmottoshisIsERC1155, ERC1155, ERC2981, Owna
         return numberOfIdLeft;
     }
 
-    // @dev see {IMarmottoshisIsERC1155-addArtist}
-    function addArtist(string[] memory _artists, string[] memory _links, uint[] memory _id) external onlyOwner {
-        require(_artists.length == _links.length && _artists.length == _id.length, "Artists and links must be the same length");
-        for (uint i = 0; i < _artists.length; i++) {
-            artistByID[_id[i]] = Artist({
-            name : _artists[i],
-            link : _links[i]
+    // @dev see {IMarmottoshisIsERC1155-addMetadata}
+    function addMetadata(uint[] memory _id, string[] memory _artists_names, string[] memory _marmot_name, string[] memory _links, string[] memory _uri) external onlyOwner {
+        require(!isMetadataLocked, "Metadata locked");
+        for (uint i = 0; i < _id.length; i++) {
+            metadataById[_id[i]] = Metadata({
+                id: _id[i],
+                artist_name: _artists_names[i],
+                marmot_name: _marmot_name[i],
+                link: _links[i],
+                uri: _uri[i]
             });
         }
     }
@@ -261,13 +264,13 @@ contract MarmottoshisIsERC1155 is IMarmottoshisIsERC1155, ERC1155, ERC2981, Owna
         if (!isRevealed) {
             return _uri;
         }
-        string memory image = string(abi.encodePacked(_uri, _tokenId.toString(), ".png"));
-        string memory name = string(abi.encodePacked("Marmottoshi #", _tokenId.toString()));
+        string memory image = metadataById[_tokenId].uri;
+        string memory name = metadataById[_tokenId].marmot_name;
         string memory json = Base64.encode(
             bytes(
                 string(
                     abi.encodePacked(
-                        '{"name": "', name, '", "image": "', image, '", "description": "Realised by ', artistByID[_tokenId].name, '. You can see more here : ', artistByID[_tokenId].link, ' .", "attributes": [{"trait_type": "Satoshis", "value": "', redeemableById(_tokenId).toString(), '"}, {"trait_type": "Remaining Copy", "value": "', supplyByID[_tokenId].toString(), '"}]}'
+                        '{"name": "', name, '", "image": "', image, '", "description": "Realised by ', metadataById[_tokenId].artist_name, '. You can see more here : ', metadataById[_tokenId].link, ' .", "attributes": [{"trait_type": "Satoshis", "value": "', redeemableById(_tokenId).toString(), '"}, {"trait_type": "Remaining Copy", "value": "', supplyByID[_tokenId].toString(), '"}]}'
                     )
                 )
             )
